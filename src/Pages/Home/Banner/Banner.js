@@ -11,7 +11,7 @@ const Banner = () => {
                     BUY or SELL
                 </h1>
                 <h3 className="text-xl md:text-3xl font-bold mt-3 mb-6 uppercase">
-                    Sell Unused Smartphones.
+                    Buy or Sell Unused Smartphones.
                 </h3>
                 <p className="text-lg font-semibold text-gray-600">
                     This website is created for you to buy and sell your new and
@@ -28,7 +28,7 @@ const Banner = () => {
                     READ MORE
                 </button>
             </div>
-            <div className="self-center">
+            <div className="self-center hidden md:block">
                 <img className="rounded" src={img} alt="" />
             </div>
         </div>
