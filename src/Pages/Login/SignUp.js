@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { setAuthToken } from "../../api/auth";
 import { AuthContext } from "../../contexts/AuthProvider";
 
 const SignUp = () => {
+    const [role, setRole] = useState("Buyer");
     const {
         loading,
         setLoading,
@@ -29,7 +30,6 @@ const SignUp = () => {
         const name = form.name.value;
         const email = form.email.value;
         const password = form.password.value;
-        const role = form.role.value;
 
         // get image & host on imgbb
         const image = form.image.files[0];
@@ -47,8 +47,8 @@ const SignUp = () => {
                 createUser(email, password).then((result) => {
                     const user = result.user;
                     // console.log(user);
-                    setAuthToken(user, role);
                     updateUserProfile(name, data.data.display_url).then(() => {
+                        setAuthToken(user, role);
                         toast.success("Account Registered Successfully.");
                         navigate(from, { replace: true });
                     });
@@ -60,6 +60,16 @@ const SignUp = () => {
             });
 
         // console.log(name, email, password, role);
+    };
+
+    // implement google signin
+    const handleGoogleSignIn = () => {
+        signInWithGoogle().then((result) => {
+            const user = result.user;
+            setAuthToken(user, "Buyer");
+            toast.success("Logged in Successfully.");
+            navigate(from, { replace: true });
+        });
     };
 
     return (
@@ -138,16 +148,18 @@ const SignUp = () => {
                                     <br />
                                     <label className="flex gap-2">
                                         <input
-                                            value="user"
+                                            onChange={() => setRole("Buyer")}
+                                            value="Buyer"
                                             type="radio"
                                             name="role"
                                             className="radio checked:bg-red-500"
                                             defaultChecked
                                         />{" "}
-                                        User
+                                        Buyer
                                     </label>
                                     <label className="flex gap-2">
                                         <input
+                                            onChange={() => setRole("Seller")}
                                             value="seller"
                                             type="radio"
                                             name="role"
@@ -171,7 +183,10 @@ const SignUp = () => {
                                     Login Using Social Account
                                 </p>
                                 <div className="form-control mt-3">
-                                    <button className="btn btn-outline">
+                                    <button
+                                        onClick={handleGoogleSignIn}
+                                        className="btn btn-outline"
+                                    >
                                         Google
                                     </button>
                                 </div>
