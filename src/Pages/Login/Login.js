@@ -1,7 +1,25 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { toast } from "react-hot-toast";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { setAuthToken } from "../../api/auth";
+import { AuthContext } from "../../contexts/AuthProvider";
 
 const Login = () => {
+    const {
+        loading,
+        setLoading,
+        createUser,
+        signInWithGoogle,
+        updateUserProfile,
+        signIn,
+        resetPassword,
+        logout,
+    } = useContext(AuthContext);
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
+
     // handle form submit
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -10,7 +28,31 @@ const Login = () => {
         const email = form.email.value;
         const password = form.password.value;
 
-        console.log(email, password);
+
+        signIn(email, password)
+            .then((result) => {
+                const user = result.user;
+                toast.success("Login Successful..!!");
+                setAuthToken(user);
+                navigate(from, { replace: true });
+            })
+            .catch((err) => {
+                toast.error(err.message);
+                console.log(err);
+                setLoading(false);
+            });
+
+        // console.log(email, password);
+    };
+
+    // implement google signin
+    const handleGoogleSignIn = () => {
+        signInWithGoogle().then((result) => {
+            const user = result.user;
+            setAuthToken(user, "Buyer");
+            toast.success("Logged in Successfully.");
+            navigate(from, { replace: true });
+        });
     };
 
     return (
@@ -64,7 +106,10 @@ const Login = () => {
                                     Login Using Social Account
                                 </p>
                                 <div className="form-control mt-3">
-                                    <button className="btn btn-outline">
+                                    <button
+                                        onClick={handleGoogleSignIn}
+                                        className="btn btn-outline"
+                                    >
                                         Google
                                     </button>
                                 </div>

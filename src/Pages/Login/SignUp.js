@@ -48,7 +48,7 @@ const SignUp = () => {
                     const user = result.user;
                     // console.log(user);
                     updateUserProfile(name, data.data.display_url).then(() => {
-                        setAuthToken(user, role);
+                        setAuthToken(user);
                         toast.success("Account Registered Successfully.");
                         navigate(from, { replace: true });
                     });
@@ -66,7 +66,7 @@ const SignUp = () => {
     const handleGoogleSignIn = () => {
         signInWithGoogle().then((result) => {
             const user = result.user;
-            setAuthToken(user, "Buyer");
+            setAuthToken(user);
             toast.success("Logged in Successfully.");
             navigate(from, { replace: true });
         });
