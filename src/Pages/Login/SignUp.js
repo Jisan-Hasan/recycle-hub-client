@@ -1,7 +1,25 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { toast } from "react-hot-toast";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { setAuthToken } from "../../api/auth";
+import { AuthContext } from "../../contexts/AuthProvider";
 
 const SignUp = () => {
+    const {
+        loading,
+        setLoading,
+        createUser,
+        signInWithGoogle,
+        updateUserProfile,
+        signIn,
+        resetPassword,
+        logout,
+    } = useContext(AuthContext);
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
+
     // handle form submit
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -13,7 +31,35 @@ const SignUp = () => {
         const password = form.password.value;
         const role = form.role.value;
 
-        console.log(name, email, password, role);
+        // get image & host on imgbb
+        const image = form.image.files[0];
+        const formData = new FormData();
+        formData.append("image", image);
+
+        const url = `https://api.imgbb.com/1/upload?key=${process.env.REACT_APP_imgbbKey}`;
+        fetch(url, {
+            method: "POST",
+            body: formData,
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                createUser(email, password).then((result) => {
+                    const user = result.user;
+                    // console.log(user);
+                    setAuthToken(user, role);
+                    updateUserProfile(name, data.data.display_url).then(() => {
+                        toast.success("Account Registered Successfully.");
+                        navigate(from, { replace: true });
+                    });
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoading(false);
+            });
+
+        // console.log(name, email, password, role);
     };
 
     return (
@@ -49,6 +95,9 @@ const SignUp = () => {
                                 </label>
                                 <input
                                     type="file"
+                                    id="image"
+                                    accept="image/*"
+                                    name="image"
                                     className="file-input file-input-bordered w-full max-w-xs"
                                     required
                                 />

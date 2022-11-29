@@ -12,6 +12,7 @@ const Login = () => {
 
         console.log(email, password);
     };
+
     return (
         <div className="hero min-h-screen mt-[-5%]">
             <div className="hero-content">
@@ -51,7 +52,10 @@ const Login = () => {
                                 </label>
                             </div>
                             <div className="form-control mt-3">
-                                <button type="submit" className="btn btn-primary">
+                                <button
+                                    type="submit"
+                                    className="btn btn-primary"
+                                >
                                     Login
                                 </button>
                             </div>
