@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { setAuthToken } from "../../api/auth";
+import { setAuthToken, setUserRole, setUserVerifyStatus } from "../../api/auth";
 import { AuthContext } from "../../contexts/AuthProvider";
 
 const SignUp = () => {
@@ -49,6 +49,8 @@ const SignUp = () => {
                     // console.log(user);
                     updateUserProfile(name, data.data.display_url).then(() => {
                         setAuthToken(user);
+                        setUserRole(user.email, role);
+                        setUserVerifyStatus(user.email, false);
                         toast.success("Account Registered Successfully.");
                         navigate(from, { replace: true });
                     });
@@ -67,6 +69,7 @@ const SignUp = () => {
         signInWithGoogle().then((result) => {
             const user = result.user;
             setAuthToken(user);
+            setUserRole(user.email, "Buyer");
             toast.success("Logged in Successfully.");
             navigate(from, { replace: true });
         });

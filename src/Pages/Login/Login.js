@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { setAuthToken } from "../../api/auth";
+import { setAuthToken, setUserRole } from "../../api/auth";
 import { AuthContext } from "../../contexts/AuthProvider";
 
 const Login = () => {
@@ -49,7 +49,8 @@ const Login = () => {
     const handleGoogleSignIn = () => {
         signInWithGoogle().then((result) => {
             const user = result.user;
-            setAuthToken(user, "Buyer");
+            setAuthToken(user);
+            setUserRole(user.email, "Buyer");
             toast.success("Logged in Successfully.");
             navigate(from, { replace: true });
         });
