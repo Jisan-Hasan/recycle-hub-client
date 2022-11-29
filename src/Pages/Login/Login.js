@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { setAuthToken } from "../../api/auth";
 import { AuthContext } from "../../contexts/AuthProvider";
 
 const Login = () => {
+    const [userEmail, setUserEmail] = useState("");
     const {
         loading,
         setLoading,
@@ -27,7 +28,6 @@ const Login = () => {
         // get form data
         const email = form.email.value;
         const password = form.password.value;
-
 
         signIn(email, password)
             .then((result) => {
@@ -55,6 +55,19 @@ const Login = () => {
         });
     };
 
+    const handleReset = () => {
+        resetPassword(userEmail)
+            .then(() => {
+                toast.success("Please Check your inbox for reset link");
+                setLoading(false);
+            })
+            .catch((err) => {
+                toast.error(err.message);
+                console.log(err);
+                setLoading(false);
+            });
+    };
+
     return (
         <div className="hero min-h-screen mt-[-5%]">
             <div className="hero-content">
@@ -69,6 +82,9 @@ const Login = () => {
                                     <span className="label-text">Email</span>
                                 </label>
                                 <input
+                                    onBlur={(event) =>
+                                        setUserEmail(event.target.value)
+                                    }
                                     name="email"
                                     type="email"
                                     placeholder="john@gmail.com"
@@ -88,7 +104,10 @@ const Login = () => {
                                     required
                                 />
                                 <label className="label">
-                                    <button className="label-text-alt link link-hover">
+                                    <button
+                                        onClick={handleReset}
+                                        className="label-text-alt link link-hover"
+                                    >
                                         Forgot password?
                                     </button>
                                 </label>
