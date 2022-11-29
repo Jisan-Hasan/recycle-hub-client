@@ -50,9 +50,9 @@ const SignUp = () => {
                     updateUserProfile(name, data.data.display_url).then(() => {
                         setAuthToken(user);
                         setUserRole(user.email, role);
-                        setUserVerifyStatus(user.email, false);
                         toast.success("Account Registered Successfully.");
                         navigate(from, { replace: true });
+                        setUserVerifyStatus(user.email, false);
                     });
                 });
             })
