@@ -50,9 +50,9 @@ const Login = () => {
         signInWithGoogle().then((result) => {
             const user = result.user;
             setAuthToken(user);
-            setUserRole(user.email, "Buyer");
             toast.success("Logged in Successfully.");
             navigate(from, { replace: true });
+            setUserRole(user.email, "Buyer");
         });
     };
 

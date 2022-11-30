@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
+import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthProvider";
 
 const Navbar = () => {
+    const { user,logout } = useContext(AuthContext);
+
+    const handleLogout = () => {
+        logout().then(() => {
+            toast.success("Logged Out successfully!");
+        }).catch(err => {
+            toast.error(err.message);
+        })
+    }
     return (
         <div className="navbar bg-base-100 container mx-auto shadow-sm">
             <div className="navbar-start">
@@ -24,17 +35,20 @@ const Navbar = () => {
                     </label>
                     <ul className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
                         <li>
-                            <Link to='/'>Home</Link>
+                            <Link to="/">Home</Link>
                         </li>
                         <li>
-                            <Link to='/blogs'>Blogs</Link>
+                            <Link to="/blogs">Blogs</Link>
                         </li>
                         <li>
                             <Link>Dashboard</Link>
                         </li>
                     </ul>
                 </div>
-                <Link to='/' className="btn btn-ghost normal-case text-xl md:text-4xl">
+                <Link
+                    to="/"
+                    className="btn btn-ghost normal-case text-xl md:text-4xl"
+                >
                     Recycle Bin
                 </Link>
             </div>
@@ -52,7 +66,13 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <Link to='/login' className="btn">Login</Link>
+                {!user?.uid ? (
+                    <Link to="/login" className="btn">
+                        Login
+                    </Link>
+                ) : (
+                    <button onClick={handleLogout} className="btn btn-error">Log Out</button>
+                )}
             </div>
         </div>
     );
