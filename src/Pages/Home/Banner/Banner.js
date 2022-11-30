@@ -23,7 +23,6 @@ const Banner = () => {
                 <button
                     className="bg-emerald-400 px-6 py-2 mt-8 text-white"
                     color=""
-                    pill={true}
                 >
                     READ MORE
                 </button>

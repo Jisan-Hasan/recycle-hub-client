@@ -6,7 +6,7 @@ export const setAuthToken = (user) => {
         name: user.displayName,
         email: user.email,
     };
-    console.log(currentUser);
+    // console.log(currentUser);
     // save user in the db
     fetch(`${process.env.REACT_APP_API_URL}/user/${user?.email}`, {
         method: "PUT",

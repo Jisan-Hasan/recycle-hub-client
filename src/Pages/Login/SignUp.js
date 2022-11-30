@@ -43,7 +43,7 @@ const SignUp = () => {
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log(data);
+                // console.log(data);
                 createUser(email, password).then((result) => {
                     const user = result.user;
                     // console.log(user);

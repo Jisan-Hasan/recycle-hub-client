@@ -1,11 +1,11 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider";
 
 const Navbar = () => {
     const { user, logout } = useContext(AuthContext);
-    let userRole = "";
+    const [role, setRole] = useState("");
 
     // get User role
     useEffect(() => {
@@ -13,11 +13,10 @@ const Navbar = () => {
             fetch(`${process.env.REACT_APP_API_URL}/userRole/${user?.email}`)
                 .then((res) => res.json())
                 .then((data) => {
-                    userRole = data?.role;
-                    // console.log(userRole);
+                    setRole(data?.role);
                 });
         }
-    }, [user]);
+    }, [user, role]);
 
     const handleLogout = () => {
         logout()
@@ -73,10 +72,20 @@ const Navbar = () => {
                         <Link>Home</Link>
                     </li>
                     <li>
-                        <Link>Blog</Link>
+                        <Link to="/blog">Blog</Link>
                     </li>
                     <li>
-                        <Link>Dashboard</Link>
+                        <Link
+                            to={`${
+                                role === "Admin"
+                                    ? "/adminDashboard"
+                                    : role === "Seller"
+                                    ? "/sellerDashboard"
+                                    : "/buyerDashboard"
+                            }`}
+                        >
+                            Dashboard
+                        </Link>
                     </li>
                 </ul>
             </div>
