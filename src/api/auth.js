@@ -1,3 +1,5 @@
+
+
 export const setAuthToken = (user) => {
     // create user object
     const currentUser = {
@@ -57,3 +59,6 @@ export const setUserVerifyStatus = (email, isVerified) => {
             console.log(data);
         });
 };
+
+// get user role from db & set to state
+// export 

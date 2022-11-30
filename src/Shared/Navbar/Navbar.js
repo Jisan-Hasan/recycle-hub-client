@@ -1,18 +1,33 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider";
 
 const Navbar = () => {
-    const { user,logout } = useContext(AuthContext);
+    const { user, logout } = useContext(AuthContext);
+    let userRole = "";
+
+    // get User role
+    useEffect(() => {
+        if (user?.email) {
+            fetch(`${process.env.REACT_APP_API_URL}/userRole/${user?.email}`)
+                .then((res) => res.json())
+                .then((data) => {
+                    userRole = data?.role;
+                    // console.log(userRole);
+                });
+        }
+    }, [user]);
 
     const handleLogout = () => {
-        logout().then(() => {
-            toast.success("Logged Out successfully!");
-        }).catch(err => {
-            toast.error(err.message);
-        })
-    }
+        logout()
+            .then(() => {
+                toast.success("Logged Out successfully!");
+            })
+            .catch((err) => {
+                toast.error(err.message);
+            });
+    };
     return (
         <div className="navbar bg-base-100 container mx-auto shadow-sm">
             <div className="navbar-start">
@@ -71,7 +86,9 @@ const Navbar = () => {
                         Login
                     </Link>
                 ) : (
-                    <button onClick={handleLogout} className="btn btn-error">Log Out</button>
+                    <button onClick={handleLogout} className="btn btn-error">
+                        Log Out
+                    </button>
                 )}
             </div>
         </div>

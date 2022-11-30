@@ -1,4 +1,3 @@
-import { data } from "autoprefixer";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -21,7 +20,7 @@ const Categories = () => {
                     <Link
                         key={category._id}
                         to={`/category/${category._id}`}
-                        className="btn btn-info py-24 font-bold text-3xl text-center"
+                        className="btn btn-info pt-16 pb-24 font-bold text-3xl text-center"
                     >
                         {category.name}
                     </Link>
