@@ -11,7 +11,7 @@ const AllSellers = () => {
     }, []);
     return (
         <div className="overflow-scroll">
-            <h3 className="text-2xl font-bold text-center my-5">My sellers</h3>
+            <h3 className="text-2xl font-bold text-center my-5">All sellers</h3>
 
             <div className="overflow-x-auto">
                 <table className="table w-full">
