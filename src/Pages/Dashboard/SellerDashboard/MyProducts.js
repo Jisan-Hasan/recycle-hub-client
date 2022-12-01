@@ -1,17 +1,33 @@
 import React, { useContext, useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { AuthContext } from "../../../contexts/AuthProvider";
 
 const MyProducts = () => {
     const { user } = useContext(AuthContext);
     const [products, setProducts] = useState([]);
+    const [refresh, setRefresh] = useState(true);
     useEffect(() => {
         fetch(`${process.env.REACT_APP_API_URL}/myProducts/${user?.email}`)
             .then((res) => res.json())
             .then((data) => {
                 setProducts(data);
             });
-    }, [user]);
-    console.log(products);
+    }, [user, refresh]);
+    // console.log(products);
+
+    const handleAdvertise = (productId) => {
+        fetch(`${process.env.REACT_APP_API_URL}/products/${productId}`, {
+            method: "PATCH",
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                toast.success("Product Advertise Successfully!");
+                setRefresh(!refresh);
+            })
+            .catch((err) => {
+                toast.error(err.message);
+            });
+    };
     return (
         <div className="overflow-scroll">
             <h3 className="text-2xl font-bold text-center my-5">My Products</h3>
@@ -44,9 +60,12 @@ const MyProducts = () => {
                                 }`}</th>
                                 <th>
                                     <button
+                                        onClick={() =>
+                                            handleAdvertise(product._id)
+                                        }
                                         className={`${
-                                            product.isAdvertise
-                                                ? "btn btn-disabled"
+                                            product.isAdvertised
+                                                ? "btn btn-disabled cursor-default"
                                                 : "btn btn-primary"
                                         }`}
                                     >
