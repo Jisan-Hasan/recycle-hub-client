@@ -1,14 +1,24 @@
 import React, { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
+import { setUserVerifyStatus } from "../../../api/auth";
 
 const AllSellers = () => {
     const [sellers, setSellers] = useState([]);
+    const [refresh, setRefresh] = useState(false);
     useEffect(() => {
         fetch(`${process.env.REACT_APP_API_URL}/allUser/Seller`)
             .then((res) => res.json())
             .then((data) => {
                 setSellers(data);
             });
-    }, []);
+    }, [refresh]);
+
+    const handleVerify = (email) => {
+        setUserVerifyStatus(email, true);
+        toast.success("User verified Successfully!");
+        setRefresh(!refresh);
+    };
+
     return (
         <div className="overflow-scroll">
             <h3 className="text-2xl font-bold text-center my-5">All sellers</h3>
@@ -34,14 +44,24 @@ const AllSellers = () => {
                                 <th>{idx + 1}</th>
                                 <th>{seller.name}</th>
                                 <th>{seller.email}</th>
-                                <th><button className={`${
-                                    seller.isVerified ? 'disabled cursor-default' : 'btn btn-info'
-                                }`}>{`${
-                                    seller.isVerified ? "Verified" : "Verify"
-                                }`}</button></th>
                                 <th>
-                                    <button className="btn btn-warning"
-                                    >
+                                    <button
+                                        onClick={() =>
+                                            handleVerify(seller.email)
+                                        }
+                                        className={`${
+                                            seller.isVerified
+                                                ? "disabled cursor-default"
+                                                : "btn btn-info"
+                                        }`}
+                                    >{`${
+                                        seller.isVerified
+                                            ? "Verified"
+                                            : "Verify"
+                                    }`}</button>
+                                </th>
+                                <th>
+                                    <button className="btn btn-warning">
                                         Delete
                                     </button>
                                 </th>

@@ -69,7 +69,7 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <p>Hello</p>,
+                element: <AllSellers />,
             },
             {
                 path: "/adminDashboard/allSeller",
