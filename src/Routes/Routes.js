@@ -3,6 +3,7 @@ import Main from "../Layout/Main";
 import SellerDashboardLayout from "../Layout/SellerDashboardLayout";
 import AddProduct from "../Pages/Dashboard/SellerDashboard/AddProduct";
 import MyProducts from "../Pages/Dashboard/SellerDashboard/MyProducts";
+import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import Home from "../Pages/Home/Home/Home";
 import Login from "../Pages/Login/Login";
 import SignUp from "../Pages/Login/SignUp";
@@ -12,7 +13,7 @@ const router = createBrowserRouter([
     {
         path: "/",
         element: <Main />,
-        errorElement: <p>error</p>,
+        errorElement: <ErrorPage />,
         children: [
             {
                 index: true,
