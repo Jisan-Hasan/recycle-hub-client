@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { setUserVerifyStatus } from "../../../api/auth";
+import { deleteUserFromDB, setUserVerifyStatus } from "../../../api/auth";
 
 const AllSellers = () => {
     const [sellers, setSellers] = useState([]);
@@ -13,11 +13,24 @@ const AllSellers = () => {
             });
     }, [refresh]);
 
+    // verify seller
     const handleVerify = (email) => {
         setUserVerifyStatus(email, true);
         toast.success("User verified Successfully!");
         setRefresh(!refresh);
     };
+
+    // Delete Seller
+    const handleDelete = (email) => {
+        fetch(`${process.env.REACT_APP_API_URL}/deleteUser/${email}`, {
+            method: 'DELETE'
+        }).then(res => res.json()).then(data=> {
+            if(data.deletedCount){
+                toast.success("User Deleted Successfully");
+                setRefresh(!refresh);
+            }
+        })
+    }
 
     return (
         <div className="overflow-scroll">
@@ -61,7 +74,7 @@ const AllSellers = () => {
                                     }`}</button>
                                 </th>
                                 <th>
-                                    <button className="btn btn-warning">
+                                    <button onClick={() => handleDelete(seller.email)} className="btn btn-warning">
                                         Delete
                                     </button>
                                 </th>

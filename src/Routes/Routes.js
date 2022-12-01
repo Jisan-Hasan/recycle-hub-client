@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import AdminDashboardLayout from "../Layout/AdminDashboardLayout";
+import BuyerDashboardLayout from "../Layout/BuyerDashboardLayout";
 import Main from "../Layout/Main";
 import SellerDashboardLayout from "../Layout/SellerDashboardLayout";
 import Blogs from "../Pages/Blogs/Blogs";
@@ -80,6 +81,15 @@ const router = createBrowserRouter([
                 element: <AllBuyers />,
             },
         ],
+    },
+    {
+        path: "/buyerDashboard",
+        element: (
+            <PrivateRoute>
+                <BuyerDashboardLayout />
+            </PrivateRoute>
+        ),
+        children: [],
     },
 ]);
 
