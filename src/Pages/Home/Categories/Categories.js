@@ -19,7 +19,7 @@ const Categories = () => {
                 {categories.map((category) => (
                     <Link
                         key={category._id}
-                        to={`/category/${category._id}`}
+                        to={`/category/${category.name}`}
                         className="btn btn-info pt-16 pb-24 font-bold text-3xl text-center"
                     >
                         {category.name}

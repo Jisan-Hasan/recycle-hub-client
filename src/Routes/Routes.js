@@ -12,6 +12,7 @@ import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import Home from "../Pages/Home/Home/Home";
 import Login from "../Pages/Login/Login";
 import SignUp from "../Pages/Login/SignUp";
+import Products from "../Pages/Products/Products";
 import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
@@ -35,6 +36,18 @@ const router = createBrowserRouter([
             {
                 path: "/blogs",
                 element: <Blogs />,
+            },
+            {
+                path: "/category/:brand",
+                element: (
+                    <PrivateRoute>
+                        <Products />
+                    </PrivateRoute>
+                ),
+                loader: ({ params }) =>
+                    fetch(
+                        `${process.env.REACT_APP_API_URL}/products/${params.brand}`
+                    ),
             },
         ],
     },
