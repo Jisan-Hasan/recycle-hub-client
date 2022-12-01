@@ -2,7 +2,7 @@
 
 ## Developer: Jisan Hasan
 
-##### Live Link:
+##### Live Link: https://recycle-hub-5e36d.web.app/
 
 ---
 
