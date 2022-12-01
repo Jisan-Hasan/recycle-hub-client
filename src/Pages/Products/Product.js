@@ -2,7 +2,7 @@ import React from "react";
 
 const Product = ({ product, setSelectedProduct }) => {
     console.log(product);
-    const { _id, condition, image, location, name, phone, sPrice,pYear } = product;
+    const { condition, image, location, name, phone, sPrice, pYear } = product;
     return (
         <div className="card  bg-base-100 shadow-xl">
             <figure>

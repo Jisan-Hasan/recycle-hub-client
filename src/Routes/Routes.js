@@ -6,6 +6,7 @@ import SellerDashboardLayout from "../Layout/SellerDashboardLayout";
 import Blogs from "../Pages/Blogs/Blogs";
 import AllBuyers from "../Pages/Dashboard/AdminDashboard/AllBuyers";
 import AllSellers from "../Pages/Dashboard/AdminDashboard/AllSellers";
+import MyOrders from "../Pages/Dashboard/BuyerDashboard/MyOrders";
 import AddProduct from "../Pages/Dashboard/SellerDashboard/AddProduct";
 import MyProducts from "../Pages/Dashboard/SellerDashboard/MyProducts";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
@@ -102,7 +103,17 @@ const router = createBrowserRouter([
                 <BuyerDashboardLayout />
             </PrivateRoute>
         ),
-        children: [],
+        children: [
+            {
+                index: true,
+                element: <MyOrders />,
+            },
+            {
+                path: "/buyerDashboard/myOrders",
+                element: <MyOrders />,
+                
+            },
+        ],
     },
 ]);
 

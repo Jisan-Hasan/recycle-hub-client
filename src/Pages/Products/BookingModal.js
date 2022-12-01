@@ -22,6 +22,8 @@ const BookingModal = ({ selectedProduct }) => {
             buyerPhone: e.target.buyerPhone.value,
         };
 
+        e.target.reset();
+
         fetch(`${process.env.REACT_APP_API_URL}/bookings`, {
             method: "POST",
             headers: {
