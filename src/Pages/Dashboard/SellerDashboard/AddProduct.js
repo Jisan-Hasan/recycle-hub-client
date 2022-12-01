@@ -69,6 +69,8 @@ const AddProduct = () => {
                     category,
                     condition,
                     description,
+                    isAvailable: true,
+                    isAdvertised: false,
                 };
                 fetch(`${process.env.REACT_APP_API_URL}/addProduct`, {
                     method: "POST",
@@ -80,9 +82,9 @@ const AddProduct = () => {
                     .then((res) => res.json())
                     .then((data) => {
                         // console.log(data);
-                        if(data.insertedId){
+                        if (data.insertedId) {
                             toast.success("Product Added Successfully");
-                            navigate('/sellerDashboard/myProducts');
+                            navigate("/sellerDashboard/myProducts");
                         }
                     })
                     .catch((err) => {
